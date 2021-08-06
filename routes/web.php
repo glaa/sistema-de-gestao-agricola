@@ -29,7 +29,7 @@ Route::prefix('/associacao')->name('associacao')->namespace('Associacao')->group
 
   Route::prefix('/editar')->name('.editarAssociacao')->group(function () {
       Route::get('/', [AssociacaoController::class, 'editarAssociacao'])->middleware('auth');
-      Route::post('/salvar', [AssociacaoController::class, 'salvarEditarAssociacao'])->name('.salvar')->middleware('auth');
+      Route::post('/salvar/{associacao}', [AssociacaoController::class, 'salvarEditarAssociacao'])->name('.salvar')->middleware('auth');
   });
 
   Route::prefix('/ver')->name('.verAssociacao')->group(function () {
