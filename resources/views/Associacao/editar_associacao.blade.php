@@ -61,6 +61,7 @@
               </div>
               <div class="col-md-3 mb-3">
                 <img id="logo-associacao" src="{{$associacao->logo != null ? asset('storage/'.$associacao->logo) : asset('images/logo_associcao_default.png')}}" alt="Logo da associação">
+                <small>Tamanho ideal: 222 X 250</small>
                 <div style="display: none;">
                   <input type="file" name="logo_associacao" id="logo_associacao" accept=".png">
                 </div>

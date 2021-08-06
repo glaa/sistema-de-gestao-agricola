@@ -27,33 +27,38 @@
               </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <label class="label-static ">Nome</label><br>
-                    <label class="label-ntstatic">{{ $associacao->user->nome}}</label>
+                <div class="col-md-10">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label class="label-static ">Nome</label><br>
+                      <label class="label-ntstatic">{{ $associacao->user->nome}}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="label-static ">CNPJ</label><br>
+                        <label class="label-ntstatic">{{ $associacao->user->email}}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="label-static ">Email</label><br>
+                        <label class="label-ntstatic">{{ $associacao->user->email2}}</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <label class="label-static ">Telefone</label><br>
+                        <label class="label-ntstatic">{{ $associacao->user->telefone}}</label>
+                    </div>
+                    @if($associacao->celular)
+                      <div class="col-md-6">
+                          <label class="label-static">Celular</label><br>
+                          <label class="label-ntstatic">{{ $associacao->celular}}</label>
+                      </div>
+                    @endif
+                  </div>
                 </div>
-                <div class="col-md-4">
-                    <label class="label-static ">CNPJ</label><br>
-                    <label class="label-ntstatic">{{ $associacao->user->email}}</label>
-                </div>
-                <div class="col-md-4">
-                    <label class="label-static ">Email</label><br>
-                    <label class="label-ntstatic">{{ $associacao->user->email2}}</label>
+                <div class="col-md-2">
+                  <img id="logo-associacao-show" src="{{$associacao->logo != null ? asset('storage/'.$associacao->logo) : asset('images/nenhum_logo.png')}}" alt="Logo da associação">
                 </div>
             </div>
-            <br>
-            <div class="row">
-              <div class="col-md-6">
-                  <label class="label-static ">Telefone</label><br>
-                  <label class="label-ntstatic">{{ $associacao->user->telefone}}</label>
-              </div>
-              @if($associacao->celular)
-                <div class="col-md-6">
-                    <label class="label-static">Celular</label><br>
-                    <label class="label-ntstatic">{{ $associacao->celular}}</label>
-                </div>
-              @endif
-            </div>
-            <br>
             <br>
             <div class="form-row">
               <div class="col-md-12 mb-3">
