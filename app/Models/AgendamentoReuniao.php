@@ -15,7 +15,7 @@ class AgendamentoReuniao extends Model
 
     public function dataFormatada(){
         $time = strtotime($this->data);
-        return date('d/m/Y', $time);
+        return date('d/m/Y H:i', $time);
     }
 
 

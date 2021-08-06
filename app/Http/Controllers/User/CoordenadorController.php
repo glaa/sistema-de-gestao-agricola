@@ -251,7 +251,7 @@ class CoordenadorController extends Controller {
         $entrada = $request->all();
 
         $time = strtotime($entrada['data']);
-        $entrada['data'] = date('Y-m-d', $time);
+        $entrada['data'] = date('Y-m-d H:i', $time);
 
         $messages = [
             'nome.*' => 'O campo Nome é obrigatório deve conter no mínimo 5 caracteres.',
@@ -307,7 +307,7 @@ class CoordenadorController extends Controller {
         $this->authorize('coordenar', User::class);
         $entrada = $request->all();
 
-        $data = date('Y-m-d');
+        $data = date('Y-m-d H:i');
 
         $messages = [
             'required' => 'O campo :attribute é obrigatório.',
