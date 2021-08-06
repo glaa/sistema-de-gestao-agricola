@@ -17,6 +17,7 @@ use App\Models\Retificacao;
 use App\Models\Produtor;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CoordenadorController extends Controller {
 
@@ -187,15 +188,23 @@ class CoordenadorController extends Controller {
         $reuniao->participantes = $participantes;
         $reuniao->agendamento_id = $reuniao_agendada_id;
 
+        $reuniaoAgendada = AgendamentoReuniao::find($reuniao_agendada_id);
+
         if($request->hasFile('ata')){
             $file = $request->allFiles()['ata'];
-            $reuniao->ata = $file->store('public/fotosReuniao/ata' . $reuniao->ocs_id . '/' . $reuniao->id);
+            $nome = $file->getClientOriginalName();
+            $reuniao->ata = $nome;
+            $reuniao->save();
+
+            $path = 'fotosReuniao/ata/' . $reuniaoAgendada->ocs_id . '/' . $reuniao->id . '/';
+            Storage::putFileAs('public/'.$path, $file, $nome);
+            $reuniao->ata = $path . $nome;
             echo $reuniao->ata;
         }
 
         $reuniao->save();
 
-        $reuniaoAgendada = AgendamentoReuniao::find($reuniao_agendada_id);
+
         $reuniaoAgendada->registrada = true;
         $reuniaoAgendada->save();
 
@@ -210,9 +219,13 @@ class CoordenadorController extends Controller {
             for($i = 0; $i < count($request->allFiles()['fotos']); $i++){
                 $file = $request->allFiles()['fotos'][$i];
 
+                $path = 'fotosReuniao/' . $reuniaoAgendada->ocs_id . '/' . $reuniao->id . '/';
+                $nome = $file->getClientOriginalName();
+                Storage::putFileAs('public/'.$path, $file, $nome);
+
                 $fotosReuniao = new FotosReuniao();
                 $fotosReuniao->reuniao_id = $reuniao->id;
-                $fotosReuniao->path = $file->store('public/fotosReuniao/' . $reuniao->ocs_id . '/' . $reuniao->id);
+                $fotosReuniao->path = $path . $nome;
 
                 echo $fotosReuniao->path;
                 $fotosReuniao->save();
