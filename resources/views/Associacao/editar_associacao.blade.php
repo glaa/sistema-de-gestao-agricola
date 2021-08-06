@@ -25,24 +25,33 @@
               </div>
             </div>
             <div class="form-row">
-                <div class="col-md-12 mb-3">
-                    <label class="label-static required">Nome</label>
-                    <input type="text" class="form-control input-stl" id="nome_entidade" name="nome" placeholder="Nome Completo" value="{{ old('nome', $associacao->user->nome) }}">
+              <div class="col-md-9">
+                <div class="form-row">
+                  <div class="col-md-12 mb-3">
+                      <label class="label-static required">Nome</label>
+                      <input type="text" class="form-control input-stl" id="nome_entidade" name="nome" placeholder="Nome Completo" value="{{ old('nome', $associacao->user->nome) }}">
+                  </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-12 mb-3">
-                    <label class="label-static required" for="Email">CNPJ</label>
-                    <input type="number" class="form-control input-stl" id="email" name="email" value="{{ old('email', $associacao->user->email) }}">
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <label class="label-static required" for="Email">CNPJ</label>
+                        <input type="number" class="form-control input-stl" id="email" name="email" value="{{ old('email', $associacao->user->email) }}">
+                    </div>
                 </div>
-            </div>
-            <div class="form-row">
-              <div class="col-md-12 mb-3">
-                  <label class="label-static">Email</label>
-                  <input type="text" class="form-control input-stl" id="email2" name="email2" placeholder="Email" value="{{ old('email2', $associacao->user->email2) }}">
+                <div class="form-row">
+                  <div class="col-md-12 mb-3">
+                      <label class="label-static">Email</label>
+                      <input type="text" class="form-control input-stl" id="email2" name="email2" placeholder="Email" value="{{ old('email2', $associacao->user->email2) }}">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <img id="logo-associacao" src="{{$associacao->logo != null ? asset('images/logo_associcao_default.png') : asset('images/logo_associcao_default.png')}}" alt="Logo da associação">
+                <div style="display: none;">
+                  <input type="file" name="logo_associacao" id="logo_associacao" accept=".png">
+                </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-md-6">
                   <label class="label-static required">Telefone</label>
@@ -117,5 +126,21 @@
     </div>
   </div>
 </div>
-
+<script>
+  $(document).ready(function() {
+    $('#logo-associacao').click(function(){
+      $('#logo_associacao').click();
+      $('#logo_associacao').change(function(){
+        if (this.files && this.files[0]) {
+          console.log(this.files[0])
+          var file = new FileReader();
+          file.onload = function(e) {
+            document.getElementById("logo-associacao").src = e.target.result;
+          }
+          file.readAsDataURL(this.files[0]);
+        }
+      });
+    });
+  });
+</script>
 @endsection

@@ -798,3 +798,18 @@ a.disabled {
 .grad{
   background-image: linear-gradient(to bottom right, green, yellow);
 }
+
+/* Editar associação */
+#logo-associacao {
+    min-height: 250px;
+    min-width: 222px;
+    height: 250px;
+    width: 222px;
+    max-height: 250px;
+    max-width: 222px; 
+    border-radius: 5px;
+    border: 1px solid rgb(182, 182, 182);
+    cursor: pointer;
+    box-shadow: 1px 1px 5px black;
+}
+/* X Editar associação X */

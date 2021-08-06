@@ -17,6 +17,7 @@ class Associacao extends Authenticatable
      */
     protected $fillable = [
         'celular',
+        'logo',
     ];
 
     public static $regras_validacao_criar = [
