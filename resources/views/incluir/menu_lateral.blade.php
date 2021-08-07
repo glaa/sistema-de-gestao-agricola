@@ -91,6 +91,6 @@
 </div>
 
 <script>
-    $('.dropdown-toggle').dropdown()
+    $('.dropdown-toggle').dropdown();
 </script>
 @endauth
