@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Endereco;
 use App\Models\Ocs;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AssociacaoController extends Controller
 {
@@ -19,11 +20,12 @@ class AssociacaoController extends Controller
       return view('Associacao.criar_associacao');
     }
 
-    public function salvarEditarAssociacao(Request $request) {
-        $this->authorize('gerenciar', User::class);
-        $entrada = $request->all();
-        $user = new User();
+    public function salvarEditarAssociacao(Request $request, $id) {
+        $associacao = Associacao::find($id);
+        $this->authorize('update', $associacao);
 
+        $entrada = $request->all();
+        
         $messages = [
             'required' => 'O campo :attribute é obrigatório.',
             'password.required' => 'A senha é obrigatória.',
@@ -57,19 +59,20 @@ class AssociacaoController extends Controller
         }
 
 
-
-        $endereco = new Endereco;
-        $endereco->fill($entrada);
-        $endereco->save();
-
+        $user = $associacao->user;
         $user->fill($entrada);
-        $user->endereco_id = $endereco->id;
-        $user->save();
+        $user->update();
 
-        $user->associacao->fill($entrada);
-        $user->associacao->unidade_federacao = $endereco->estado;
+        $endereco = $user->endereco;
+        $endereco->fill($entrada);
+        $endereco->update();
 
-        $user->associacao->save();
+        $associacao->fill($entrada);
+        $associacao->unidade_federacao = $endereco->estado;
+        if ($request->logo_associacao != null) {
+          $associacao->logo = $this->salvarLogoAssociacao($user->associacao, $request->logo_associacao);
+        }
+        $associacao->update();
 
         return redirect()->route('associacao.verAssociacao')->with('Sucesso', 'Edição finalizada com sucesso!');
     }
@@ -437,5 +440,10 @@ class AssociacaoController extends Controller
     }
 
 
-
+    private function salvarLogoAssociacao(Associacao $associacao, $file) {
+      $path = 'associacoes/' . $associacao->id . '/';
+      $nome = 'logo.' . $file->getClientOriginalExtension();
+      Storage::putFileAs($path, $file, $nome);
+      return $path . $nome;
+    }
 }

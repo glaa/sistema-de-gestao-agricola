@@ -17,6 +17,7 @@ class Associacao extends Authenticatable
      */
     protected $fillable = [
         'celular',
+        'logo',
     ];
 
     public static $regras_validacao_criar = [
@@ -25,6 +26,7 @@ class Associacao extends Authenticatable
 
     public static $regras_validacao_editar = [
         'celular' => 'nullable|numeric|min:10',
+        'logo_associacao' => 'nullable|file|mimes:png|max:2048'
     ];
 
     public function user() {

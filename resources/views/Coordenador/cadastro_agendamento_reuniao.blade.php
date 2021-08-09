@@ -19,25 +19,25 @@
         <div class="form-group">
             <label for='nome' class="col-md-6 col-form-label label-static">Nome da reunião</label>
             <div class="col-md-6">
-                <input type='text' class="form-control input-stl" placeholder = "Digite o nome da reunião" name='nome' id='nome' value="{{old('nome')}}"/>    
+                <input type='text' class="form-control input-stl" placeholder = "Digite o nome da reunião" name='nome' id='nome' value="{{old('nome')}}"/>
             </div>
         </div>
         <div class="col-md-4 mb-4">
             <label for="data_reuniao" class="label-static">Data da reunião</label>
-            <input type="date" class="form-control input-stl" name="data" id="data" value="{{old('data')}}">
+            <input type="datetime-local" class="form-control input-stl" name="data" id="data" value="{{old('data')}}">
         </div>
         <div class="form-group">
             <label for='nome' class="col-md-6 col-form-label label-static">Local</label>
             <div class="col-md-6">
-                <input type='text' class="form-control input-stl" placeholder = "Digite o local da reunião" name='local' id='local' value="{{old('local')}}"/>    
+                <input type='text' class="form-control input-stl" placeholder = "Digite o local da reunião" name='local' id='local' value="{{old('local')}}"/>
             </div>
         </div>
-    
+
         <br>
 
         <div class="form-group">
             <div class="col-md-6">
-                <button class="btn botao-submit" type="submit">Registrar</button>            
+                <button class="btn botao-submit" type="submit">Registrar</button>
             </div>
         </div>
     </form>

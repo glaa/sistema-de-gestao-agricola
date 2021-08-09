@@ -40,7 +40,7 @@
                           </div>
                           <div class="col-md-4 mb-3">
                             <label class="label-static required">Data da reunião</label>
-                            <input type="date" class="form-control" name="data" id="data" value="{{old('data')}}">
+                            <input type="datetime-local" class="form-control" name="data" id="data" value="{{old('data')}}">
                           </div>
                     </div>
                     <div class="form-row">
