@@ -14,6 +14,7 @@ use App\Models\FotosReuniao;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class PassportAuthController extends Controller
 {
@@ -197,35 +198,35 @@ class PassportAuthController extends Controller
         } 
 
         $reuniaoAgendada = AgendamentoReuniao::find($request->id_agenda);
-        //return response(is_file($request->allFiles()['fotos']),200);
-        // $i = 0;
-        // foreach($request->fotos as $image){
-        //     $i++;
-        // }
-        // return response($i,200);
-
-        //return response()->file($request->allFiles()['fotos']);
 
         if($request->hasFile('ata')){
             $reuniao = new Reuniao();
             for($i = 0; $i < count($request->allFiles()['ata']); $i++){
                 $file = $request->allFiles()['ata'][$i];
-
                 $reuniao->agendamento_id = $request->id_agenda;
-                $reuniao->ata = $file->store('atas/' . $reuniao->agendamento_id);
+                //$reuniao->ata = $file->store('atas/' . $reuniao->agendamento_id);
+                $reuniao->ata = $file->storeAs(
+                    'atas/' . $reuniao->agendamento_id,$file->getClientOriginalName());
             }
+            $reuniao->participantes = "";
             $reuniao->save();
         }
 
-/*         if($request->hasFile('fotos')){
+        if($request->hasFile('fotos')){
+            $reuniao = DB::table('reuniaos')->where('agendamento_id',$request->id_agenda)->first();
             for($i = 0; $i < count($request->allFiles()['fotos']); $i++){
                 $fotosReuniao = new FotosReuniao();
-                $fotosReuniao->reuniao_id = $request->id_agenda;
-                $fotosReuniao->path = $file->store('fotosReuniao/' . $fotosReuniao->reuniao_id);
-
+                $fotosReuniao->reuniao_id = $reuniao->id;
+                $file = $request->allFiles()['fotos'][$i];
+                //$fotosReuniao->path = $file->store('fotosReuniao/' . $fotosReuniao->reuniao_id);
+                $fotosReuniao->path = $file->storeAs(
+                    'fotosReuniao/' . $reuniao->agendamento_id,$file->getClientOriginalName());
                 $fotosReuniao->save();
             }
-        } */
+        }
+
+        $reuniaoAgendada->registrada = true;
+        $reuniaoAgendada->save();
         return response()->json(['ok' => 'sucesso'],200);
     }
 

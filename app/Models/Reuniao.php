@@ -13,7 +13,8 @@ class Reuniao extends Model
     ];
 
     public static $rules = [
-        'participantes' => 'required',
+        //Para o app o campo participantes não é obrigatório
+        'participantes' => 'nullable',
         'ata' => 'required',
     ];
 
