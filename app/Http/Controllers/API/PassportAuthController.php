@@ -102,7 +102,7 @@ class PassportAuthController extends Controller
         if($request->has('mapa')){
             if($request->hasFile('mapa')){
                 $file = $request->file('mapa'); 
-                $fotoMapa->path = $file->storeAs('fotosMapas',time().".jpg");
+                $fotoMapa->path = $file->storeAs('fotosMapas/'.$propriedade->id,time().".jpg");
                 $fotoMapa->save();  
             }
         }        
@@ -181,14 +181,24 @@ class PassportAuthController extends Controller
 
         $reuniaoAgendada = AgendamentoReuniao::find($id);
         $reuniao = $reuniaoAgendada->reuniaoRegistrada;
-        //$fotos = file($reuniao->fotosReuniao->path);
-        $ata = Storage::get($reuniao->ata);
-        //$fotos = Storage::get($reuniao->fotosReuniao);
-        $mapa = Storage::get($user->produtor->propriedade->fotoMapa->path);
-        $produtor = $user->produtor;
-        
-        return response(['ata' => $ata,'fotos' => $ata],200)->header('Content-Type','application/json;image/jpeg');
-        //return response()->json(['fotos' => $mapa],200);
+        $registrada = $reuniaoAgendada->reuniaoRegistrada;
+        if($registrada){
+            $registros_atas = DB::table('reuniaos')->where('agendamento_id',$id)->get();
+            $atas = array();
+            $fotos = array();
+            for($i = 0; $i < count($registros_atas); $i++){
+                $atas[] = base64_encode(Storage::get($registros_atas[$i]->ata));
+                $registros_fotos = DB::table('fotos_reuniaos')->where('reuniao_id',$registros_atas[$i]->id)->get();
+            
+                for($j = 0; $j < count($registros_fotos); $j++){
+                    $fotos[] = base64_encode(Storage::get($registros_fotos[$j]->path));
+                }
+            }
+            
+            return response()->json(['atas' => $atas, 'fotos' => $fotos], 200);
+        } else {
+            return response(['ata' => 'null'],200);
+        }
     }
 
     public function registrarReuniao(Request $request){
@@ -280,5 +290,35 @@ class PassportAuthController extends Controller
         $endereco->save();
 
         return response()->json(['ok' => 'sucesso'],200);
+    }
+
+    public function getMapa(Request $request){
+        $user = auth()->user();
+        $registros_mapas = DB::table('foto_mapas')->where(
+            'propriedade_id',$user->produtor->propriedade->id)->get();
+        $mapas = array();
+        for($i = 0; $i < count($registros_mapas); $i++){
+            $mapas[] = [base64_encode(Storage::get($registros_mapas[$i]->path)),$registros_mapas[$i]->created_at];
+        }
+        return response()->json(['mapas' => $mapas], 200);
+    }
+
+    public function salvarMapa(Request $request){
+        $user = auth()->user();
+        //return response()->json(['ok' => 'sucesso'],200);
+        $propriedade_id = $user->produtor->propriedade->id;
+        
+        $fotoMapa = new FotoMapa();
+        $fotoMapa->propriedade_id = $propriedade_id;
+
+        if($request->has('mapa')){
+            if($request->hasFile('mapa')){
+                $file = $request->file('mapa'); 
+                $fotoMapa->path = $file->storeAs('fotosMapas/'.$propriedade_id,time().".jpg");
+                $fotoMapa->save();  
+                return response()->json(['ok' => 'sucesso'],200);
+            }
+        }      
+        return response()->json(['erro' => 'erro'],406);  
     }
 }
