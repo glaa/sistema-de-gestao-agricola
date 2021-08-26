@@ -96,53 +96,53 @@
             <hr class="divider"></hr>
           </div>
         </div>
-        @if($produtor->endereco->cep)
+        @if($produtor->produtor->propriedade->endereco->cep)
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label class="label-static ">Cidade</label><br>
-            <label class="label-ntstatic">{{ $produtor->endereco->cidade}}</label>
+            <label class="label-ntstatic">{{ $produtor->produtor->propriedade->endereco->cidade}}</label>
           </div>
           <div class="col-md-3 mb-3">
             <label class="label-static ">Estado</label><br>
-            <label class="label-ntstatic">{{ $produtor->endereco->estado}}</label>
+            <label class="label-ntstatic">{{ $produtor->produtor->propriedade->endereco->estado}}</label>
           </div>
           <div class="col-md-3 mb-3">
             <label class="label-static" for="cep">CEP</label><br>
-            <label class="label-ntstatic">{{ $produtor->endereco->cep}}</label>
+            <label class="label-ntstatic">{{ $produtor->produtor->propriedade->endereco->cep}}</label>
           </div>
         </div>
         @else
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label class="label-static ">Cidade</label><br>
-            <label class="label-ntstatic">{{ $produtor->endereco->cidade}}</label>
+            <label class="label-ntstatic">{{ $produtor->produtor->propriedade->endereco->cidade}}</label>
           </div>
           <div class="col-md-6 mb-3">
             <label class="label-static ">Estado</label><br>
-            <label class="label-ntstatic">{{ $produtor->endereco->estado}}</label>
+            <label class="label-ntstatic">{{ $produtor->produtor->propriedade->endereco->estado}}</label>
           </div>
         </div>
         @endif
-        @if($produtor->endereco->nome_rua)
+        @if($produtor->produtor->propriedade->endereco->nome_rua)
         <div class="form-row">
           <div class="col-md-6 mb-4">
             <label class="label-static">Logradouro</label><br>
-            <label class="label-ntstatic">{{ $produtor->endereco->nome_rua}}</label>
+            <label class="label-ntstatic">{{ $produtor->produtor->propriedade->endereco->nome_rua}}</label>
           </div>
           <div class="col-md-2 mb-4">
             <label class="label-static">Número</label><br>
-            <label class="label-ntstatic">{{ $produtor->endereco->numero_casa}}</label>
+            <label class="label-ntstatic">{{ $produtor->produtor->propriedade->endereco->numero_casa}}</label>
           </div>
           <div class="col-md-4 mb-4">
             <label class="label-static">Bairro</label><br>
-            <label class="label-ntstatic">{{ $produtor->endereco->bairro}}</label>
+            <label class="label-ntstatic">{{ $produtor->produtor->propriedade->endereco->bairro}}</label>
           </div>
         </div>
         @endif
-        @if($produtor->endereco->ponto_referencia)
+        @if($produtor->produtor->propriedade->endereco->ponto_referencia)
         <div class="form-group">
           <label class="label-static">Ponto de Referência</label><br>
-          <label class="label-ntstatic">{{ $produtor->endereco->ponto_referencia}}</label>
+          <label class="label-ntstatic">{{ $produtor->produtor->propriedade->endereco->ponto_referencia}}</label>
         </div>
         @endif
 

@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-md-6 mb-4">
                             <label class="label-static required">Email</label>
-                            <input type="text" class="form-control input-stl" name="cpf" placeholder="Email" value="{{ old('email2', $produtor->email2) }}">
+                            <input type="text" class="form-control input-stl" name="email2" placeholder="Email" value="{{ old('email2', $produtor->email2) }}">
                         </div>
                     </div>
 
@@ -88,29 +88,29 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label class="label-static required">Cidade</label>
-                            <input type="text" class="form-control input-stl" id="cidade" name="cidade" placeholder="Cidade" value="{{ old('cidade', $produtor->endereco->cidade) }}">
+                            <input type="text" class="form-control input-stl" id="cidade" name="cidade" placeholder="Cidade" value="{{ old('cidade', $produtor->produtor->propriedade->endereco->cidade) }}">
                         </div>
                         <div class="col-md-2 mb-3">
                             <label class="label-static required">Estado</label>
-                            <input type="text" class="form-control input-stl" id="estado" name="estado" placeholder="Estado" value="{{ old('cidade', $produtor->endereco->estado) }}">
+                            <input type="text" class="form-control input-stl" id="estado" name="estado" placeholder="Estado" value="{{ old('cidade', $produtor->produtor->propriedade->endereco->estado) }}">
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="label-static" for="cep">CEP</label>
-                            <input type="text" class="form-control input-stl" id="cep" name="cep" placeholder="" value="{{ old('cep', $produtor->endereco->cep) }}">
+                            <input type="text" class="form-control input-stl" id="cep" name="cep" placeholder="" value="{{ old('cep', $produtor->produtor->propriedade->endereco->cep) }}">
                         </div>
                     </div>
                     <div class="form-row">
                       <div class="col-md-4 mb-4">
                           <label class="label-static">Bairro</label>
-                          <input type="text" class="form-control input-stl" name="bairro" placeholder="Bairro" value="{{ old('bairro', $produtor->endereco->bairro) }}">
+                          <input type="text" class="form-control input-stl" name="bairro" placeholder="Bairro" value="{{ old('bairro', $produtor->produtor->propriedade->endereco->bairro) }}">
                       </div>
                         <div class="col-md-6 mb-4">
                             <label class="label-static">Logradouro</label>
-                            <input type="text" class="form-control input-stl" name="nome_rua" placeholder="Rua" value="{{ old('nome_rua', $produtor->endereco->nome_rua) }}">
+                            <input type="text" class="form-control input-stl" name="nome_rua" placeholder="Rua" value="{{ old('nome_rua', $produtor->produtor->propriedade->endereco->nome_rua) }}">
                         </div>
                         <div class="col-md-2 mb-4">
                             <label class="label-static">Número</label>
-                            <input type="number" class="form-control input-stl" name="numero_casa" placeholder="Numero" value="{{ old('numero_casa', $produtor->endereco->numero_casa) }}">
+                            <input type="number" class="form-control input-stl" name="numero_casa" placeholder="Numero" value="{{ old('numero_casa', $produtor->produtor->propriedade->endereco->numero_casa) }}">
                         </div>
                     </div>
 
@@ -118,7 +118,7 @@
 
                     <div class="form-group">
                         <label class="label-static">Ponto de Referência</label>
-                        <textarea class="form-control input-stl" id="ponto_referencia" name="ponto_referencia" rows="1">{{$produtor->endereco->ponto_referencia}}</textarea>
+                        <textarea class="form-control input-stl" id="ponto_referencia" name="ponto_referencia" rows="1">{{$produtor->produtor->propriedade->endereco->ponto_referencia}}</textarea>
                     </div>
 
                     <hr class="outliner"></hr>

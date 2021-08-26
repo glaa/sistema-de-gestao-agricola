@@ -111,9 +111,9 @@ class UserController extends Controller {
         $produtor->endereco_id = $endereco->id;
         $produtor->fill($entrada);
 
-        if($entrada['password']){
-          $produtor->password = Hash::make($entrada['password']);
-        }
+        // if($entrada['password']){
+        //   $produtor->password = Hash::make($entrada['password']);
+        // }
 
         $produtor->save();
         $produtor->produtor->save();
