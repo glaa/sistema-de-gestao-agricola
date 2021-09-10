@@ -36,6 +36,9 @@ Route::middleware('auth:api')->group(function(){
     Route::post('atualizar-propriedade',[PassportAuthController::class,'atualizarPropriedade']);
     Route::get('get-endereco',[PassportAuthController::class,'getEndereco']);
     Route::post('atualizar-endereco',[PassportAuthController::class,'atualizarEndereco']);
-    Route::get('get-mapa',[PassportAuthController::class,'getMapa']);
+    Route::get('get-mapas',[PassportAuthController::class,'getMapas']);
+    Route::get('get-mapa/{id}',[PassportAuthController::class,'getMapa']);
     Route::post('salvar-mapa',[PassportAuthController::class,'salvarMapa']);
+    Route::get('get-informacao-produtor',[PassportAuthController::class,'getInformacaoProdutor']);
+    Route::post('atualizar-informacao-produtor',[PassportAuthController::class,'atualizarInformacaoProdutor']);
 });

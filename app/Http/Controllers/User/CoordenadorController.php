@@ -195,10 +195,10 @@ class CoordenadorController extends Controller {
             $nome = $file->getClientOriginalName();
             $reuniao->ata = $nome;
             $reuniao->save();
-
-            $path = 'fotosReuniao/ata/' . $reuniaoAgendada->ocs_id . '/' . $reuniao->id . '/';
+            $path = 'atas/' . $reuniao->agendamento_id . '/';
+            //$path = 'fotosReuniao/ata/' . $reuniaoAgendada->ocs_id . '/' . $reuniao->id . '/';
             Storage::putFileAs('public/'.$path, $file, $nome);
-            $reuniao->ata = $path . $nome;
+            $reuniao->ata = $path .'ata_0_'. $nome;
             echo $reuniao->ata;
         }
 
@@ -218,14 +218,14 @@ class CoordenadorController extends Controller {
         if($request->hasFile('fotos')){
             for($i = 0; $i < count($request->allFiles()['fotos']); $i++){
                 $file = $request->allFiles()['fotos'][$i];
-
-                $path = 'fotosReuniao/' . $reuniaoAgendada->ocs_id . '/' . $reuniao->id . '/';
+                $path = 'fotosReuniao/' . $reuniao->agendamento_id . '/';
+                //$path = 'fotosReuniao/' . $reuniaoAgendada->ocs_id . '/' . $reuniao->id . '/';
                 $nome = $file->getClientOriginalName();
                 Storage::putFileAs('public/'.$path, $file, $nome);
 
                 $fotosReuniao = new FotosReuniao();
                 $fotosReuniao->reuniao_id = $reuniao->id;
-                $fotosReuniao->path = $path . $nome;
+                $fotosReuniao->path = $path . 'fotos_' . $i . '_' . $nome;
 
                 echo $fotosReuniao->path;
                 $fotosReuniao->save();

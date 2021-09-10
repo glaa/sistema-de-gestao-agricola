@@ -87,5 +87,9 @@ class User extends Authenticatable
       return $this->hasOne('\App\Models\Endereco', 'id', 'endereco_id');
   }
 
+  public function perfil(){
+    return $this->belongsTo('App\Models\Perfil','id','user_id');
+}
+
 
 }

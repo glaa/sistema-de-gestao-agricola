@@ -11,6 +11,7 @@ use App\Models\Propriedade;
 use App\Models\AgendamentoReuniao;
 use App\Models\Reuniao;
 use App\Models\FotosReuniao;
+use App\Models\Perfil;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -56,8 +57,9 @@ class PassportAuthController extends Controller
         $user = auth()->user();   
         //Passa a tabela produtor como atributo da variável $user
         $produtor =  $user->produtor;
+        $foto = base64_encode(Storage::get($user->perfil->path));
         //$endereco = $user->endereco;
-        return response()->json(['user' => $user], 200);
+        return response()->json(['user' => $user, 'foto' => $foto], 200);
     }
 
     public function index(){
@@ -292,15 +294,29 @@ class PassportAuthController extends Controller
         return response()->json(['ok' => 'sucesso'],200);
     }
 
-    public function getMapa(Request $request){
+    public function getMapa($id){
         $user = auth()->user();
+
+        $registro_mapa = FotoMapa::find($id);
+           
+        $mapa = base64_encode(Storage::get($registro_mapa->path));
+       // for($i = 0; $i < count($registros_mapas); $i++){
+       //     $mapas[] = [base64_encode(Storage::get($registros_mapas[$i]->path)),$registros_mapas[$i]->created_at];
+        //}
+        return response()->json(['mapa' => $mapa], 200);
+    }
+
+    public function getMapas(Request $request){
+        $user = auth()->user();
+
         $registros_mapas = DB::table('foto_mapas')->where(
-            'propriedade_id',$user->produtor->propriedade->id)->get();
+            'propriedade_id',$user->produtor->propriedade->id
+        )->get();
         $mapas = array();
         for($i = 0; $i < count($registros_mapas); $i++){
-            $mapas[] = [base64_encode(Storage::get($registros_mapas[$i]->path)),$registros_mapas[$i]->created_at];
+            $mapas[] = [$registros_mapas[$i]->created_at,$registros_mapas[$i]->id];
         }
-        return response()->json(['mapas' => $mapas], 200);
+        return response()->json(['mapas' => $mapas],200);
     }
 
     public function salvarMapa(Request $request){
@@ -320,5 +336,46 @@ class PassportAuthController extends Controller
             }
         }      
         return response()->json(['erro' => 'erro'],406);  
+    }
+
+    public function getInformacaoProdutor(Request $request){
+        $user = auth()->user();
+        $produtor = $user->produtor;
+
+        return response()->json(['produtor' => $produtor], 200);
+    }
+
+    public function atualizarInformacaoProdutor(Request $request){
+        $user = auth()->user();
+        $user->telefone = $request->telefone;
+        $user->email2 = $request->email;
+        $user->save();
+        
+        $produtor = $user->produtor;
+        $produtor->data_nascimento = base64_decode($request->data_nascimento);
+        $produtor->rg = $request->rg;
+        $produtor->nome_conjugue = base64_decode($request->nome_conjuge);
+        $produtor->nome_filhos = base64_decode($request->nome_filhos);
+        $produtor->save();
+
+        if($request->has('foto')){
+            if($request->hasFile('foto')){
+                $file = $request->file('foto'); 
+                $perfil = $user->perfil;
+                if($perfil != null){
+                    Storage::delete($perfil->path);
+                    $perfil->path = $file->storeAs('fotosPerfil/'.$user->id,time().".jpg");
+                    $perfil->save();
+                } else {
+                    $perfil = new Perfil();
+                    $perfil->user_id = $user->id;
+                    $perfil->path = $file->storeAs('fotosPerfil/'.$user->id,time().".jpg");
+                    $perfil->save();
+                }
+            }
+        }      
+        
+
+        return response()->json(['ok' => 'sucesso'],200);
     }
 }
